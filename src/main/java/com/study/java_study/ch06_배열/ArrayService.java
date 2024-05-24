@@ -62,9 +62,7 @@ public class ArrayService {
                     System.out.println("[이름 삭제]");
 
                     String deleteName = null;
-                    String[] deleteNames = new String[0];
-                    if (names.length > 1) {
-                       deleteNames = new String[names.length];
+                    if (names.length >= 1) {
                         System.out.print("삭제하고자 하는 이름을 입력: ");
                         deleteName = scanner.nextLine();
                     } else if (names.length < 1) {
@@ -73,10 +71,19 @@ public class ArrayService {
                     }
 
                     for (int i = 0; i < names.length; i++) {
-
+                        String name = names[i];
+                        if (deleteName == name) {
+                            for (int j = i; j < names.length; j++) {
+                                if (j + 1 == names.length) {
+                                    break;
+                                }
+                                names[j] = names[j + 1];
+                            }
+                            names[names.length - 1] = null;
+                            break;
+                        }
                     }
 
-                    names = deleteNames;
                     System.out.println("삭제 완료!");
                     break;
                 case "4":
