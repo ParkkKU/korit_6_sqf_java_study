@@ -9,6 +9,7 @@ public class BookService {
 
     public BookService() {
         scanner = new Scanner(System.in);
+        bookRepository = new BookRepository();
     }
 
     private String selectmenu() {
@@ -39,16 +40,19 @@ public class BookService {
         String selectedMenu = selectmenu();
 
         switch (selectedMenu) {
+            case "q":
+                isRun = false;
+                break;
             case "1":
+                registerBook();
                 break;
             case "2":
+                search();
                 break;
             case "3":
                 break;
             case "4":
                 break;
-            case "q":
-                isRun = false;
             default:
                 System.out.println("입력 오류!");
         }
@@ -64,7 +68,7 @@ public class BookService {
             if (!value.isBlank()){
                 break;
         }
-            System.out.println("도서명은 공백일 수가 없습니다. 다시 입력하세요.");
+            System.out.println(title + "명은 공백일 수가 없습니다. 다시 입력하세요.");
         }
         return value;
     }
@@ -83,22 +87,38 @@ public class BookService {
 
     private void registerBook() {
         System.out.println("[ 도서 등록 ]");
-        String bookName = null;
-        String author = null;
-        String publisher = null;
+        int bookId = bookRepository.autoIncrementBookId();
+        String bookName = duplicateBookName();
+        String author = validateValue("저자");
+        String publisher = validateValue("출판사");
 
-        while(true) {
-            bookName = validateValue("도서");
-            if (bookRepository.findBookByBookName(bookName) == null) {
-                break;
-            }
-            System.out.println("해당 도서명이 이미 존재합니다. 다시 입력하세요.");
+        BookEntity book = new BookEntity(0, bookName, author, publisher);
+        bookRepository.saveBook(book);
+        System.out.println("새로운 도서를 등록하였습니다.");
+    }
+
+    private void search() {
+        System.out.println("[ 도서 검색 ]");
+        System.out.println("1. 통합 검색");
+        System.out.println("2. 도서명 검색");
+        System.out.println("3. 저자명 검색");
+        System.out.println("4. 출판사명 검색");
+        System.out.print("옵션 선택: ");
+        int option = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("검색어 입력: ");
+        String searchText = scanner.nextLine();
+        BookEntity[] searchBooks = bookRepository.searchBooks(option, searchText);
+
+        System.out.println("[ 검색 결과 ]");
+        if (searchBooks.length == 0) {
+            System.out.println("검색 결과가 없습니다.");
+            return;
         }
-
-        bookName = duplicateBookName();
-        author = validateValue("저자");
-        publisher = validateValue("출판사");
-
+        for (BookEntity book : searchBooks) {
+            System.out.println(book.toString());
+            System.out.println();
         }
+    }
 
 }

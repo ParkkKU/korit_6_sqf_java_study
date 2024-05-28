@@ -5,11 +5,16 @@ import java.awt.print.Book;
 
 // 저장소 -> CRUD
 public class BookRepository {
+    private int bookId;
 
     private BookEntity[] books;
 
     public BookRepository() {
         books = new BookEntity[0];
+    }
+
+    public int autoIncrementBookId() {
+        return ++bookId;
     }
 
 
@@ -66,7 +71,7 @@ public class BookRepository {
         return findBook;
     }
 
-    private int getNewArraySize(int option,  String searchText) {
+    private int getNewArraySize(int option, String searchText) {
         int newArraySize = 0;
 
         switch (option) {
@@ -107,7 +112,6 @@ public class BookRepository {
                 //통합검색
                 newArraySize++;
             }
-
 
         return newArraySize;
     }
