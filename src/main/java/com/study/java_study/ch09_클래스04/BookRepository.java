@@ -2,6 +2,7 @@ package com.study.java_study.ch09_클래스04;
 
 
 import java.awt.print.Book;
+import java.util.Arrays;
 
 // 저장소 -> CRUD
 public class BookRepository {
@@ -27,6 +28,8 @@ public class BookRepository {
             newBooks[i] = books[i];
             break;
         }
+
+        //books = Arrays.copyOf()
 
         // 기존 배열의 주소가 들어있는 books 변수에 새로운 배열의 주소를 대입한다.
         books = newBooks;
@@ -108,6 +111,9 @@ public class BookRepository {
                             newArraySize++;
                         }
                     }
+            default:
+                System.out.println("잘못된 입력입니다.");
+
 
                 //통합검색
                 newArraySize++;
@@ -161,6 +167,8 @@ public class BookRepository {
                         i++;
                     }
                 }
+            default:
+                System.out.println("잘못된 입력입니다.");
         }
 
         return searchBooks;

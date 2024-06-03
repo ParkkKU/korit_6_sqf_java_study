@@ -1,8 +1,9 @@
 package com.study.java_study.ch15_Static;
 
 public class StudentRepository {
-    private static StudentRepository instance;
     private String[] names;
+
+    private static StudentRepository instance;
 
     private StudentRepository() {
         names = new String[5];
